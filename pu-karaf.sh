@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # pu-karaf's version.
-ver=1.0.0
+ver=1.0.1
 
 # List of compatible Karaf versions.
 compatibleKarafVersions=("4.0.0" "4.0.1" "4.0.2" "4.0.3" "4.0.4" "4.0.5" "4.0.6" "4.0.7")
@@ -51,7 +51,7 @@ fi
 if [ -f $1/etc/config.properties ] 
 	then
 		# Find Karaf's version.
-		karafVersion=$(cat ~/Servers/concorde/etc/config.properties | sed -n 's/org.apache.karaf.version;version=\"\(.*\)\",\\/\1/p' | sed 's/ //g')
+		karafVersion=$(cat $1/etc/config.properties | sed -n 's/org.apache.karaf.version;version=\"\(.*\)\",\\/\1/p' | sed 's/ //g')
 		# If Karaf's version is empty terminate.
 		if [ -z $karafVersion ]
 			then
@@ -76,7 +76,7 @@ if [ -f $1/etc/config.properties ]
 				if [ $replace == 1 ]
 					then
 						# Check if this Karaf has already been enhanced.
-						if [ $(cat ~/Servers/concorde/etc/shell.init.script |grep -o "Enhanced by puk-karaf" |wc -w| sed 's/ //g') -gt 0 ]
+						if [ $(cat $1/etc/shell.init.script |grep -o "Enhanced by puk-karaf" |wc -w| sed 's/ //g') -gt 0 ]
 							then
 								echo "This Karaf is already enhanced by puk-karaf."
 								exit 3
