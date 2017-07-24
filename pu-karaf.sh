@@ -4,7 +4,7 @@
 ver=1.0.1
 
 # List of compatible Karaf versions.
-compatibleKarafVersions=("4.0.0" "4.0.1" "4.0.2" "4.0.3" "4.0.4" "4.0.5" "4.0.6" "4.0.7")
+compatibleKarafVersions=("4.0.0" "4.0.1" "4.0.2" "4.0.3" "4.0.4" "4.0.5" "4.0.6" "4.0.7" "4.0.8" "4.0.9")
 
 # Some basic usage instruction.
 read -r -d '' HELP << EOM
@@ -15,13 +15,13 @@ Usage:
 	pu-karaf /a/path/to/karaf
 
 The following aliases are added:
-	- puk-lf		Lists failed bundles
-	- puk-lg		List bundles with grep (e.g. puk-lg apache)
-	- puk-fg		List feature with grep (e.g. puk-fg cxf)
-	- puk-ds		List services providing datasources.
-	- puk-dsf		List services providing datasource factories.
-	- puk-ns		List handled namespaces.
-	- puk-em		List Entity Managers (factories).
+	- lf		Lists failed bundles
+	- lg		List bundles with grep (e.g. lg apache)
+	- fg		List feature with grep (e.g. fg cxf)
+	- ds		List services providing datasources.
+	- dsf		List services providing datasource factories.
+	- ns		List handled namespaces.
+	- em		List Entity Managers (factories).
 
 Do you have any suggestions?
 Fork https://github.com/NMichas/pu-karaf and issue a PR.
@@ -30,14 +30,14 @@ EOM
 #  Enhanced aliases.
 read -r -d '' ALIASES << EOM
 \n
-// Enhanced by puk-karaf: https://github.com/NMichas/pu-karaf\n
-puk-lg = { la | grep -i \$args } ;\n
-puk-lf = { la | grep -i 'Failure\|Waiting\|GracePeriod' } ;\n
-puk-fg = { feature:list | grep -i \$args } ;\n
-puk-ds = { service:list javax.sql.DataSource } ;\n
-puk-dsf = { service:list org.osgi.service.jdbc.DataSourceFactory } ;\n
-puk-em = { service:list EntityManagerFactory } ;\n
-puk-ns = { service:list |grep "osgi.service.blueprint.namespace" |sort } ;\n
+// Enhanced by pu-karaf: https://github.com/NMichas/pu-karaf\n
+lg = { la | grep -i \$args } ;\n
+lf = { la | grep -i 'Failure\|Waiting\|GracePeriod' } ;\n
+fg = { feature:list | grep -i \$args } ;\n
+ds = { service:list javax.sql.DataSource } ;\n
+dsf = { service:list org.osgi.service.jdbc.DataSourceFactory } ;\n
+em = { service:list EntityManagerFactory } ;\n
+ns = { service:list |grep "osgi.service.blueprint.namespace" |sort } ;\n
 EOM
 
 # Show help if no args provided.
@@ -76,9 +76,9 @@ if [ -f $1/etc/config.properties ]
 				if [ $replace == 1 ]
 					then
 						# Check if this Karaf has already been enhanced.
-						if [ $(cat $1/etc/shell.init.script |grep -o "Enhanced by puk-karaf" |wc -w| sed 's/ //g') -gt 0 ]
+						if [ $(cat $1/etc/shell.init.script |grep -o "Enhanced by pu-karaf" |wc -w| sed 's/ //g') -gt 0 ]
 							then
-								echo "This Karaf is already enhanced by puk-karaf."
+								echo "This Karaf is already enhanced by pu-karaf."
 								exit 3
 							else
 								echo $ALIASES >> $1/etc/shell.init.script
